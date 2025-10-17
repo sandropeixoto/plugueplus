@@ -81,7 +81,25 @@ class Router
 
             $handler = $route['handler'];
             $args = $params ? [$params] : [];
-            $handler(...$args);
+
+            try {
+                $handler(...$args);
+            } catch (Throwable $throwable) {
+                error_log('[Router] ' . $throwable->getMessage());
+
+                $payload = [
+                    'message' => 'Erro interno do servidor. Por favor, tente novamente em instantes.',
+                ];
+
+                if (function_exists('env') && env('APP_ENV', 'production') !== 'production') {
+                    $payload['debug'] = [
+                        'type' => get_class($throwable),
+                        'message' => $throwable->getMessage(),
+                    ];
+                }
+
+                Response::json($payload, 500);
+            }
             return;
         }
 

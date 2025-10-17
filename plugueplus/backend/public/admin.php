@@ -72,9 +72,13 @@ require_once __DIR__ . '/../config/bootstrap.php';
         .token-field input {
             padding: 0.55rem 0.75rem;
             border-radius: 6px;
-            border: 1px solid rgba(255, 255, 255, 0.35);
-            background: rgba(255, 255, 255, 0.12);
-            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.92);
+            color: var(--brand-dark);
+        }
+
+        .token-field input::placeholder {
+            color: rgba(15, 47, 68, 0.65);
         }
 
         .shell {

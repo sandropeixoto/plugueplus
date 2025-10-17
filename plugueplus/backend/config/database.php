@@ -30,21 +30,26 @@ class Database
             try {
                 self::$connection = new PDO($dsn, $user, $password, $options);
             } catch (PDOException $exception) {
-                if ((int) $exception->getCode() !== 1049) {
-                    throw $exception;
+                if ((int) $exception->getCode() === 1049) {
+                    $serverDsn = sprintf('mysql:host=%s;port=%s;charset=utf8mb4', $host, $port);
+
+                    try {
+                        $serverConnection = new PDO($serverDsn, $user, $password, $options);
+                        $serverConnection->exec(
+                            sprintf(
+                                'CREATE DATABASE IF NOT EXISTS `%s` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci',
+                                str_replace('`', '``', $dbName)
+                            )
+                        );
+                        $serverConnection = null;
+
+                        self::$connection = new PDO($dsn, $user, $password, $options);
+                    } catch (PDOException $innerException) {
+                        throw self::connectionError($innerException);
+                    }
+                } else {
+                    throw self::connectionError($exception);
                 }
-
-                $serverDsn = sprintf('mysql:host=%s;port=%s;charset=utf8mb4', $host, $port);
-                $serverConnection = new PDO($serverDsn, $user, $password, $options);
-                $serverConnection->exec(
-                    sprintf(
-                        'CREATE DATABASE IF NOT EXISTS `%s` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci',
-                        str_replace('`', '``', $dbName)
-                    )
-                );
-                $serverConnection = null;
-
-                self::$connection = new PDO($dsn, $user, $password, $options);
             }
 
             self::ensureSchema(self::$connection);
@@ -137,5 +142,17 @@ class Database
         }
 
         return $statements;
+    }
+
+    private static function connectionError(PDOException $exception): RuntimeException
+    {
+        $message = 'Não foi possível conectar ao banco de dados. Verifique as credenciais e tente novamente.';
+        if (env('APP_ENV', 'production') !== 'production') {
+            $message .= ' Detalhes: ' . $exception->getMessage();
+        }
+
+        error_log('[Database] ' . $exception->getMessage());
+
+        return new RuntimeException($message, (int) $exception->getCode(), $exception);
     }
 }
