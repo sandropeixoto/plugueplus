@@ -42,12 +42,22 @@ onMounted(async () => {
 .map-wrapper {
   display: grid;
   gap: 1rem;
+  max-width: min(1000px, 100%);
+  margin: 0 auto;
+  width: 100%;
 }
 
 .map {
-  height: 500px;
+  height: min(60vh, 520px);
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+@media (max-width: 640px) {
+  .map {
+    height: 360px;
+    border-radius: 12px;
+  }
 }
 </style>
