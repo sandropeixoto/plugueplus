@@ -342,7 +342,13 @@ require_once __DIR__ . '/../config/bootstrap.php';
             border: 1px solid rgba(15, 23, 42, 0.18);
             background: rgba(255, 255, 255, 0.9);
             font-size: 0.95rem;
+            color: var(--brand-dark);
             transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .field input::placeholder,
+        .field textarea::placeholder {
+            color: rgba(15, 47, 68, 0.6);
         }
 
         .field input:focus,
