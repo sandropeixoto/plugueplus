@@ -1,5 +1,5 @@
 <template>
-  <section>
+<section class="feed">
     <h2>Feed da Comunidade</h2>
     <form class="post-form" @submit.prevent="createPost">
       <input v-model="form.titulo" type="text" placeholder="Título" required />
@@ -84,9 +84,11 @@ onMounted(loadFeed);
 </script>
 
 <style scoped>
-section {
+.feed {
   display: grid;
   gap: 2rem;
+  max-width: min(960px, 100%);
+  margin: 0 auto;
 }
 
 .post-form {
@@ -96,6 +98,27 @@ section {
   padding: 1.5rem;
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+@media (max-width: 768px) {
+  .feed {
+    gap: 1.5rem;
+  }
+
+  .post-form,
+  .post {
+    padding: 1.2rem;
+  }
+
+  .post-form button,
+  .comments button {
+    width: 100%;
+    align-self: stretch;
+  }
+
+  .comments form {
+    gap: 0.75rem;
+  }
 }
 
 .post-form input,

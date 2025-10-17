@@ -4,7 +4,17 @@ class AuthMiddleware
 {
     public static function check(): bool
     {
-        $headers = getallheaders();
+        if (function_exists('getallheaders')) {
+            $headers = getallheaders();
+        } else {
+            $headers = [];
+            foreach ($_SERVER as $key => $value) {
+                if (strpos($key, 'HTTP_') === 0) {
+                    $name = str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($key, 5)))));
+                    $headers[$name] = $value;
+                }
+            }
+        }
         $authorization = $headers['Authorization'] ?? $headers['authorization'] ?? '';
 
         if (!str_starts_with($authorization, 'Bearer ')) {
