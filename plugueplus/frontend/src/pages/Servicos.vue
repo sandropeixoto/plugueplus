@@ -57,11 +57,14 @@ onMounted(carregar);
 .services {
   display: grid;
   gap: 2rem;
+  max-width: min(960px, 100%);
+  margin: 0 auto;
 }
 
 .filters {
   display: flex;
   gap: 1rem;
+  flex-wrap: wrap;
 }
 
 select {
@@ -74,6 +77,7 @@ select {
 .grid {
   display: grid;
   gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
 
 article {
@@ -81,6 +85,22 @@ article {
   padding: 1.5rem;
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+}
+
+@media (max-width: 640px) {
+  .services {
+    gap: 1.5rem;
+  }
+
+  .filters {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  select {
+    width: 100%;
+    margin-left: 0;
+  }
 }
 
 ul {
