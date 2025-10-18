@@ -6,46 +6,29 @@ MVP colaborativo para donos e entusiastas de veículos elétricos com mapa de ca
 ```
 plugueplus/
 ├── backend/
-│   ├── api/
+│   ├── app/
 │   ├── config/
-│   ├── controllers/
-│   ├── helpers/
-│   ├── middleware/
-│   ├── models/
 │   ├── public/
 │   └── sql/
-├── frontend/
-│   ├── public/
-│   └── src/
 └── .github/workflows/
 ```
 
 ## Pré-requisitos
 - PHP 8.3+
 - MySQL 8+
-- Node.js 20+
 
 ## Configuração Backend
 1. Copie o arquivo `.env.example` para `.env` na pasta `plugueplus/backend` e ajuste as variáveis.
-2. Instale dependências:
+   - Caso esteja utilizando as credenciais fornecidas para produção, basta colá-las no novo arquivo.
+2. Instale dependências (opcional, apenas se utilizar recursos adicionais via Composer):
    ```bash
    cd plugueplus/backend
    composer install
    ```
-3. Execute o script `sql/schema.sql` no seu banco MySQL.
-4. Inicie o servidor embutido do PHP:
+3. O backend criará automaticamente o banco (quando o usuário possuir permissão) e aplicará o schema presente em `sql/schema.sql` na primeira conexão.
+4. Inicie o servidor embutido do PHP servindo o diretório `public/`:
    ```bash
+   cd plugueplus/backend
    php -S 127.0.0.1:9000 -t public
    ```
-
-## Configuração Frontend
-```bash
-cd plugueplus/frontend
-npm install
-npm run dev
-```
-
-O frontend ficará disponível em `http://127.0.0.1:5173` e consumirá a API no endereço `http://127.0.0.1:9000`.
-
-## Autenticação
-As rotas de criação exigem token JWT obtido via `/auth/login` ou `/auth/register`. O painel administrativo básico pode ser acessado em `http://127.0.0.1:9000/admin.php`.
+5. Acesse `http://127.0.0.1:9000/admin.php` para gerenciar categorias, serviços e carregadores diretamente pelo painel PHP responsivo construído com Bootstrap. Todas as operações utilizam PDO e formulários tradicionais, sem dependência de APIs externas.
