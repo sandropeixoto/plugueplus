@@ -174,10 +174,14 @@ function section_label(string $section): string
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        :root {
+            color-scheme: only light;
+        }
         body {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(180deg, #f4f6ff 0%, #ffffff 40%);
             min-height: 100vh;
+            color: #0f172a;
         }
         .navbar-brand {
             font-weight: 700;
@@ -203,11 +207,22 @@ function section_label(string $section): string
         .table tbody tr {
             vertical-align: middle;
         }
-        .form-control, .form-select {
-            color: #111827;
+        .form-control,
+        .form-select {
+            color: #0f172a;
+            background-color: #ffffff;
+            border-color: rgba(15, 23, 42, 0.15);
         }
         .form-control::placeholder {
             color: #6b7280;
+            opacity: 1;
+        }
+        .form-control:focus,
+        .form-select:focus {
+            color: #0f172a;
+            background-color: #ffffff;
+            border-color: rgba(37, 99, 235, 0.45);
+            box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.15);
         }
         .nav-pills .nav-link {
             font-weight: 600;
