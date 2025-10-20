@@ -28,9 +28,5 @@ if (!function_exists('env')) {
 
 date_default_timezone_set('UTC');
 
-require_once __DIR__ . '/../helpers/Response.php';
-require_once __DIR__ . '/../helpers/Router.php';
-require_once __DIR__ . '/../helpers/Auth.php';
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../middleware/auth.php';
 
