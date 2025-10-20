@@ -64,6 +64,7 @@ class Database
             return;
         }
 
+<<<<<<< HEAD
         self::runSchemaFile($connection);
         self::runSafeUpgrades($connection);
 
@@ -74,11 +75,20 @@ class Database
     {
         $schemaFile = dirname(__DIR__) . '/sql/schema.sql';
         if (!is_file($schemaFile) || !is_readable($schemaFile)) {
+=======
+        $schemaFile = dirname(__DIR__) . '/sql/schema.sql';
+        if (!is_file($schemaFile) || !is_readable($schemaFile)) {
+            self::$schemaEnsured = true;
+>>>>>>> main
             return;
         }
 
         $sql = file_get_contents($schemaFile);
         if ($sql === false) {
+<<<<<<< HEAD
+=======
+            self::$schemaEnsured = true;
+>>>>>>> main
             return;
         }
 
@@ -87,6 +97,7 @@ class Database
                 $connection->exec($statement);
             }
         }
+<<<<<<< HEAD
     }
 
     private static function runSafeUpgrades(PDO $connection): void
@@ -187,6 +198,10 @@ class Database
         if ($statement->fetch() === false) {
             $connection->exec("ALTER TABLE `{$tableSafe}` {$definition}");
         }
+=======
+
+        self::$schemaEnsured = true;
+>>>>>>> main
     }
 
     /**
